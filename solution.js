@@ -1,6 +1,6 @@
-### JS Classes
+"use strict";
 
-1. Create the instance properties `fullname` and `email` in the `Employee` class. Given a person's first and last names:
+/* 1. Create the instance properties `fullname` and `email` in the `Employee` class. Given a person's first and last names:
 
 Form the `fullname` by simply joining the first and last name together, separated by a space.
 Form the `email` by joining the first and last name together with a `.` in between, and follow it with `@company.com` at the end. Make sure the entire email is in lowercase.
@@ -17,9 +17,26 @@ emp3 = new Employee("Antony", "Walker")
 emp3.firstname ➞ "Antony"
 
 ```
-* Note :- The properties firstname and lastname are already made for you.
+* Note :- The properties firstname and lastname are already made for you. */
 
-2. # :shopping_cart: Mini Online-Shop
+console.log(`*******1*******`);
+class Employee {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    // Complete the code!
+    this.fullName = this.firstName + " " + this.lastName;
+    this.email = `${this.firstName}.${this.lastName}@company.com`.toLowerCase();
+  }
+}
+const emp1 = new Employee("John", "Smith");
+console.log(emp1.fullName);
+const emp2 = new Employee("Mary", "Sue");
+console.log(emp2.email);
+const emp3 = new Employee("Antony", "Walker");
+console.log(emp3.firstName);
+
+/* 2. # :shopping_cart: Mini Online-Shop
 
 **This exercise covers the JavaScript concepts of classes and instance objects**
 
@@ -95,5 +112,67 @@ cart.getProductInfoCart();
 
 cart.getTotalItemsPrice();
 // The total for 2 items in your cart amounts to 249.99 €.
-```
+``` */
+console.log(`*******2.1*******`);
+class Product {
+  constructor(name, price) {
+    this.name = name;
+    this.price = price;
+  }
+  toText() {
+    console.log(
+      `${this.name} ${
+        this.price
+      } € in total. ${this.containedVAT()} € VAT icl. (16%).`
+    );
+  }
+  containedVAT() {
+    return this.price * 0.16;
+  }
+}
 
+const tracksuit = new Product("Adidas tracksuit", 150.0);
+const shoes = new Product("Puma running shoes", 85.99);
+const socks = new Product("Socks set", 4.99);
+
+tracksuit.toText();
+console.log(`${tracksuit.containedVAT()} € VAT incl`);
+console.log(`*******2.2*******`);
+class Cart {
+  constructor() {
+    this.products = [];
+  }
+  addProduct(shoppedProduct) {
+    if (shoppedProduct instanceof Product) {
+      this.products.push(shoppedProduct);
+      console.log(
+        `Your shopping cart now contains ${this.products.length} products`
+      );
+    } else {
+      console.log(`The product is not available in the shop`);
+    }
+  }
+  getProductInfoCart() {
+    this.products.forEach(function (el) {
+      el.toText();
+    });
+  }
+  getTotalItemsPrice() {
+    const sum = this.products
+      .map((el) => Number(el.price))
+      .reduce((acc, el) => acc + el, 0);
+    console.log(
+      `The total for ${
+        this.products.length
+      } items in your cart amounts to ${sum.toFixed(2)} €`
+    );
+  }
+}
+console.log(`*******2.3*******`);
+const cart = new Cart();
+cart.addProduct("potato");
+cart.addProduct(tracksuit);
+cart.addProduct(shoes);
+cart.addProduct(socks);
+cart.getProductInfoCart();
+cart.getTotalItemsPrice();
